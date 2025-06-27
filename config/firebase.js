@@ -1,19 +1,19 @@
-import { initializeApp } from "firebase/app";
-import { getAuth, initializeAuth, getReactNativePersistence } from "firebase/auth";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { getFirestore, collection } from "firebase/firestore";
+import { initializeApp } from "firebase/app";
+import { getAuth, getReactNativePersistence, initializeAuth } from "firebase/auth";
+import { collection, getFirestore } from "firebase/firestore";
 import { getStorage } from 'firebase/storage';
 import { Platform } from 'react-native';
 
 // Firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyDUgOjxTsAo09MTmR1W3INCaoZ26SFwXwQ",
-  authDomain: "en-able-168f9.firebaseapp.com",
-  projectId: "en-able-168f9",
-  storageBucket: "en-able-168f9.firebasestorage.app",
-  messagingSenderId: "728769658546",
-  appId: "1:728769658546:web:c9d8fb7e3e7cb23ac8d3ab",
-  measurementId: "G-3CN19CMQR0"
+  apiKey: "AIzaSyDLwFscVAixGxKK3vmclZRqdVG4oC0uEgA",
+  authDomain: "allergyapp-d03a5.firebaseapp.com",
+  projectId: "allergyapp-d03a5",
+  storageBucket: "allergyapp-d03a5.firebasestorage.app",
+  messagingSenderId: "348964567112",
+  appId: "1:348964567112:web:1e8e506356b4bb84c5c07d",
+  measurementId: "G-2MVY62QK0D"
 };
 
 // Initialize Firebase
@@ -34,3 +34,5 @@ export { auth };
 export const db = getFirestore(app);
 export const storage = getStorage(app);
 export const usersRef = collection(db, 'users');
+
+

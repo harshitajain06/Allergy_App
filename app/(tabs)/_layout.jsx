@@ -1,21 +1,21 @@
-import React from 'react';
-import { Alert } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { AllergenProvider } from '@/components/AllergenContext'; // Add this import
+import { Ionicons } from '@expo/vector-icons';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { useNavigation } from '@react-navigation/native';
-import HomePage from './Home';
-import ForumPage from './Forum';
-import ScanPage from './Scan';
-import HistoryPage from './History';
-import ProfilePage from './Profile'; 
-import LoginRegister from './index';
+import { createStackNavigator } from '@react-navigation/stack';
+import { signOut } from 'firebase/auth';
+import React from 'react';
+import { Alert } from 'react-native';
+import { auth } from '../../config/firebase';
 import { Colors } from '../../constants/Colors';
 import { useColorScheme } from '../../hooks/useColorScheme';
-import { Ionicons } from '@expo/vector-icons'; // If using Expo
-import { signOut } from 'firebase/auth'; // Ensure Firebase auth is configured
-import { auth } from '../../config/firebase'; 
-
+import ForumPage from './Forum';
+import HistoryPage from './History';
+import HomePage from './Home';
+import ProfilePage from './Profile';
+import ScanPage from './Scan';
+import LoginRegister from './index';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -78,7 +78,7 @@ const DrawerNavigator = () => {
           onPress: () => {
             signOut(auth)
               .then(() => {
-                navigation.replace('index'); // Navigate to Login screen
+                navigation.replace('index');
               })
               .catch((err) => {
                 console.error('Logout Error:', err);
@@ -94,9 +94,7 @@ const DrawerNavigator = () => {
   return (
     <Drawer.Navigator initialRouteName="MainTabs">
       <Drawer.Screen name="MainTabs" component={BottomTabs} options={{ title: 'Home' }} />
-      {/* Additional screens can be added here if needed */}
-
-      {/* Logout option */}
+      
       <Drawer.Screen
         name="Logout"
         component={BottomTabs}
@@ -131,8 +129,14 @@ export default function StackLayout() {
       {/* Authentication Screens */}
       <Stack.Screen name="LoginRegister" component={LoginRegister} />
 
-      {/* Main App with Drawer */}
-      <Stack.Screen name="Drawer" component={DrawerNavigator} />
+      {/* Main App with Drawer - Wrapped with AllergenProvider */}
+      <Stack.Screen name="Drawer">
+        {() => (
+          <AllergenProvider>
+            <DrawerNavigator />
+          </AllergenProvider>
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }

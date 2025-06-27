@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, ScrollView, StyleSheet, ActivityIndicator, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
-import {auth} from '../../config/firebase';
 import { useColorScheme } from '@/hooks/useColorScheme';
+import { useNavigation } from '@react-navigation/native';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { useState } from 'react';
+import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { auth } from '../../config/firebase';
 
 export default function AuthPage() {
   const navigation = useNavigation();
@@ -21,21 +21,25 @@ export default function AuthPage() {
   const [registerPassword, setRegisterPassword] = useState('');
 
   const handleLogin = async () => {
+    // navigation.navigate('Drawer'); // temporary
   if (!loginEmail || !loginPassword) {
     return Alert.alert('Error', 'Please fill all fields.');
   }
   setIsLoading(true);
   try {
+    // console.log("hi")
     await signInWithEmailAndPassword(auth, loginEmail, loginPassword);
     setIsLoading(false);
     navigation.navigate('Drawer');
   } catch (error) {
     setIsLoading(false);
     Alert.alert('Login Failed', error.message);
+    // console.log("fail")
   }
 };
 
 const handleRegister = async () => {
+  // navigation.navigate('Drawer'); // temporary
   if (!registerName || !registerEmail || !registerPassword) {
     return Alert.alert('Error', 'Please fill all fields.');
   }
