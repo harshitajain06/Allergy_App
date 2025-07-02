@@ -1,48 +1,43 @@
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
-import { useNavigation } from "@react-navigation/native";
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity } from "react-native";
-type Props = {
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
+interface ScanCardProps {
   onPress: () => void;
-};
-
-export default function ScanCard({ onPress }: Props) {
-  const navigation = useNavigation();
-
-  return (
-    <TouchableOpacity style={styles.card} onPress={onPress}>
-      <MaterialIcons
-        name="camera-alt"
-        size={36}
-        color="#007bff"
-        style={styles.icon}
-      />
-      <Text style={styles.title}>Scan Food for Allergens</Text>
-      <Text style={styles.subtitle}>Tap to start scanning</Text>
-    </TouchableOpacity>
-  );
 }
 
+const ScanCard: React.FC<ScanCardProps> = ({ onPress }) => {
+  return (
+    <TouchableOpacity style={styles.container} onPress={onPress}>
+      <View style={styles.content}>
+        <Text style={styles.title}>Scan Product</Text>
+        <Text style={styles.subtitle}>Tap to scan for allergens</Text>
+      </View>
+    </TouchableOpacity>
+  );
+};
+
 const styles = StyleSheet.create({
-  card: {
+  container: {
+    width: "100%", // This makes it stretch to full width
     backgroundColor: "#e6f3ff",
     borderRadius: 16,
-    paddingVertical: 32,
-    paddingHorizontal: 80,
-    alignItems: "center",
-    marginVertical: 20,
+    padding: 20,
+    marginVertical: 10,
+    // Remove any maxWidth or fixed width constraints
   },
-  icon: {
-    marginBottom: 12,
+  content: {
+    alignItems: "center",
   },
   title: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#007bff",
+    fontSize: 20,
+    fontWeight: "bold",
+    color: "#333333",
+    marginBottom: 8,
   },
   subtitle: {
-    fontSize: 14,
-    color: "#6c757d",
-    marginTop: 4,
+    fontSize: 16,
+    color: "#666666",
   },
 });
+
+export default ScanCard;

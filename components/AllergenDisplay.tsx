@@ -152,6 +152,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#FFFFFF",
     borderRadius: 16,
     marginTop: 20,
+    width: "100%",
   },
   header: {
     backgroundColor: "#E5D9FF",

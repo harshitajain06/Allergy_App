@@ -1,9 +1,10 @@
 import { useColorScheme } from '@/hooks/useColorScheme';
 import { useNavigation } from '@react-navigation/native';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from 'firebase/auth';
+import { doc, setDoc } from 'firebase/firestore';
 import { useState } from 'react';
 import { ActivityIndicator, Alert, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
-import { auth } from '../../config/firebase';
+import { auth, db } from '../../config/firebase';
 
 export default function AuthPage() {
   const navigation = useNavigation();
@@ -39,21 +40,39 @@ export default function AuthPage() {
 };
 
 const handleRegister = async () => {
-  // navigation.navigate('Drawer'); // temporary
   if (!registerName || !registerEmail || !registerPassword) {
     return Alert.alert('Error', 'Please fill all fields.');
   }
+
   setIsLoading(true);
   try {
-    const userCredential = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
-    await updateProfile(userCredential.user, { displayName: registerName });
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      registerEmail,
+      registerPassword
+    );
+    const user = userCredential.user;
+    console.log('Registered user:', user.uid);
+
+    await updateProfile(user, { displayName: registerName });
+    console.log('Updated profile with name');
+
+    await setDoc(doc(db, 'users', user.uid), {
+      name: registerName,
+      email: registerEmail,
+      createdAt: new Date().toISOString(),
+    });
+
+    console.log('Saved user profile to Firestore');
     setIsLoading(false);
     navigation.navigate('Drawer');
   } catch (error) {
     setIsLoading(false);
+    console.error('Registration error:', error);
     Alert.alert('Registration Failed', error.message);
   }
 };
+
 
 
   return (

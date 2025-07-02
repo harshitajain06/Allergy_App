@@ -1,27 +1,26 @@
-
+import AccountSettings from '@/components/AccountSettings';
 import AllergenManager from '@/components/AllergenManager';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 
 export default function Profile() {
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Profile Page</Text>
-      <Text>List your symptoms here.</Text>
-      <AllergenManager />
-    </View>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+      <View style={styles.content}>
+        <AllergenManager />
+        <AccountSettings />
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
+    backgroundColor: '#fff',
   },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
+  content: {
+    padding: 20,
+    paddingBottom: 40, // Extra padding at bottom for scroll
   },
 });
